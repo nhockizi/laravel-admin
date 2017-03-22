@@ -1,0 +1,28 @@
+{
+    "name": "Kizi/laravel-admin",
+    "description": "laravel admin",
+    "type": "library",
+    "keywords": ["laravel", "admin", "grid", "chart", "form"],
+    "homepage": "https://github.com/nhockizi/laravel-admin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "nhockizi",
+            "email": "nhockizi@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.4",
+        "laravel/framework": "5.3.*"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Kizi\\Admin\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    }
+}
