@@ -1,5 +1,5 @@
 {
-    "name": "kizi/laravel-admin",
+    "name": "nhockizi/laravel-admin",
     "description": "laravel admin",
     "type": "library",
     "keywords": ["laravel", "admin", "grid", "chart", "form"],
