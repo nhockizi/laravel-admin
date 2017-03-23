@@ -65,27 +65,27 @@ return [
         'connection'             => '',
 
         // User tables and model.
-        'users_table'            => 'admin_users',
+        'users_table'            => 'users',
         'users_model'            => Kizi\Admin\Auth\Database\Administrator::class,
 
         // Role table and model.
-        'roles_table'            => 'admin_roles',
+        'roles_table'            => 'roles',
         'roles_model'            => Kizi\Admin\Auth\Database\Role::class,
 
         // Permission table and model.
-        'permissions_table'      => 'admin_permissions',
+        'permissions_table'      => 'permissions',
         'permissions_model'      => Kizi\Admin\Auth\Database\Permission::class,
 
         // Menu table and model.
-        'menu_table'             => 'admin_menu',
+        'menu_table'             => 'menu',
         'menu_model'             => Kizi\Admin\Auth\Database\Menu::class,
 
         // Pivot table for table above.
-        'operation_log_table'    => 'admin_operation_log',
-        'user_permissions_table' => 'admin_user_permissions',
-        'role_users_table'       => 'admin_role_users',
-        'role_permissions_table' => 'admin_role_permissions',
-        'role_menu_table'        => 'admin_role_menu',
+        'operation_log_table'    => 'operation_log',
+        'user_permissions_table' => 'user_permissions',
+        'role_users_table'       => 'role_users',
+        'role_permissions_table' => 'role_permissions',
+        'role_menu_table'        => 'role_menu',
     ],
 
     /*
