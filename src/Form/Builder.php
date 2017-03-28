@@ -158,14 +158,15 @@ class Builder
      */
     public function getResource($slice = null)
     {
+        $segments = \Request::segments();
         if ($this->mode == self::MODE_CREATE) {
-            return $this->form->resource(-1);
+            return Admin::url($segments[1]);
         }
         if ($slice !== null) {
-            return $this->form->resource($slice);
+            return 'null' . $this->form->resource($slice);
         }
 
-        return $this->form->resource();
+        return 'aaaa' . $this->form->resource();
     }
 
     /**
@@ -201,16 +202,18 @@ class Builder
      */
     public function getAction()
     {
+        $segments = \Request::segments();
+
         if ($this->action) {
-            return $this->action;
+            return Admin::url($segments[1]);
         }
 
         if ($this->isMode(static::MODE_EDIT)) {
-            return $this->form->resource() . '/' . $this->id;
+            return Admin::url($segments[1]) . '/' . $this->id;
         }
 
         if ($this->isMode(static::MODE_CREATE)) {
-            return $this->form->resource(-1);
+            return Admin::url($segments[1]);
         }
 
         return '';

@@ -654,7 +654,7 @@ class Grid
 
         $input = array_merge($input, [Exporter::$queryName => true]);
 
-        return (string) config('app.url') . '/' . $this->resource() . '?' . http_build_query($input);
+        return $this->resource() . '?' . http_build_query($input);
     }
 
     /**

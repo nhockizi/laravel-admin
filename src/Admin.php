@@ -273,19 +273,21 @@ class Admin
     public function registerHelpersRoutes($attributes = [])
     {
         $attributes = array_merge([
-            'prefix'     => trim(config('admin.prefix'), '/') . '/helpers',
+            'prefix'     => config('admin.prefix') . '/helpers',
+            'namespace'  => 'Kizi\Admin\Controllers',
             'middleware' => ['web', 'admin'],
         ], $attributes);
-
         Route::group($attributes, function ($router) {
-
+            $attributes = ['middleware' => 'admin.permission:allow,administrator'];
             /* @var \Illuminate\Routing\Router $router */
-            $router->get('terminal/database', 'Kizi\Admin\Controllers\TerminalController@database');
-            $router->post('terminal/database', 'Kizi\Admin\Controllers\TerminalController@runDatabase');
-            $router->get('terminal/artisan', 'Kizi\Admin\Controllers\TerminalController@artisan');
-            $router->post('terminal/artisan', 'Kizi\Admin\Controllers\TerminalController@runArtisan');
-            $router->get('scaffold', 'Kizi\Admin\Controllers\ScaffoldController@index');
-            $router->post('scaffold', 'Kizi\Admin\Controllers\ScaffoldController@store');
+            $router->group($attributes, function ($router) {
+                $router->get('terminal/database', 'TerminalController@database');
+                $router->post('terminal/database', 'TerminalController@runDatabase');
+                $router->get('terminal/artisan', 'TerminalController@artisan');
+                $router->post('terminal/artisan', 'TerminalController@runArtisan');
+                $router->get('scaffold', 'ScaffoldController@index');
+                $router->post('scaffold', 'ScaffoldController@store');
+            });
         });
     }
 }

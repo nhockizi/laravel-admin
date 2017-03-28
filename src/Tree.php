@@ -50,7 +50,7 @@ class Tree implements Renderable
     /**
      * @var bool
      */
-    public $useCreate = true;
+    public $useCreate = false;
 
     /**
      * @var array
@@ -65,8 +65,8 @@ class Tree implements Renderable
     public function __construct(Model $model = null, \Closure $callback = null)
     {
         $this->model = $model;
-
-        $this->path = app('router')->current()->getPath();
+        $segments    = \Request::segments();
+        $this->path  = Admin::url($segments[1]);
         $this->elementId .= uniqid();
 
         if ($callback instanceof \Closure) {
@@ -184,7 +184,7 @@ class Tree implements Renderable
         $('.tree_branch_delete').click(function() {
             var id = $(this).data('id');
             if(confirm("{$confirm}")) {
-                $.post('/{$this->path}/' + id, {_method:'delete','_token':LA.token}, function(data){
+                $.post('{$this->path}/' + id, {_method:'delete','_token':LA.token}, function(data){
                     $.pjax.reload('#pjax-container');
                     toastr.success('{$deleteSucceeded}');
                 });
@@ -194,7 +194,7 @@ class Tree implements Renderable
         $('.{$this->elementId}-save').click(function () {
             var serialize = $('#{$this->elementId}').nestable('serialize');
 
-            $.post('/{$this->path}', {
+            $.post('{$this->path}', {
                 _token: LA.token,
                 _order: JSON.stringify(serialize)
             },

@@ -85,7 +85,10 @@ class UserController extends Controller
                     $actions->disableDelete();
                 });
             });
-
+            $grid->filter(function ($filter) {
+                $filter->useModal();
+                $filter->like('username', trans('admin::lang.username'));
+            });
             $grid->disableExport();
         });
     }
@@ -98,6 +101,7 @@ class UserController extends Controller
     public function form()
     {
         return Administrator::form(function (Form $form) {
+            $form->useModal();
             $form->display('id', 'ID');
 
             $form->text('username', trans('admin::lang.username'))->rules('required');

@@ -67,16 +67,14 @@ class MenuController extends Controller
     protected function treeView()
     {
         return Menu::tree(function (Tree $tree) {
-            $tree->disableCreate();
-
             $tree->branch(function ($branch) {
                 $payload = "<i class='fa {$branch['icon']}'></i>&nbsp;<strong>{$branch['title']}</strong>";
 
-                if (!isset($branch['children'])) {
-                    $uri = Admin::url($branch['uri']);
+                // if (!isset($branch['children'])) {
+                //     $uri = Admin::url($branch['uri']);
 
-                    $payload .= "&nbsp;&nbsp;&nbsp;<a href=\"$uri\" class=\"dd-nodrag\">$uri</a>";
-                }
+                //     $payload .= "&nbsp;&nbsp;&nbsp;<a href=\"$uri\" class=\"dd-nodrag\">{$branch['title']}</a>";
+                // }
 
                 return $payload;
             });

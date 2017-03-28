@@ -62,7 +62,6 @@
 {!! Admin::js() !!}
 
 <script>
-
     function LA() {}
     LA.token = "{{ csrf_token() }}";
 
