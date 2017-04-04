@@ -16,7 +16,7 @@ class DeveloperController extends Controller
             $content->header('Editors');
 
             $content->body(function ($row) {
-                // $row->column(3, view('admin::developer.index'));
+                $row->column(3, view('admin::developer.index'));
                 $row->column(9, function ($column) {
                     $form = new Form();
                     $form->editor('content1', 'sss2');
