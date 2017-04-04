@@ -76,7 +76,7 @@
         closeButton: true,
         progressBar: true,
         showMethod: 'slideDown',
-        timeOut: 4000
+        timeOut: 2000
     };
 
     $.pjax.defaults.timeout = 5000;

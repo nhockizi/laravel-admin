@@ -17,5 +17,10 @@
  * Admin::js('/packages/prettydocs/js/main.js');
  *
  */
+use Kizi\Admin\Extensions\CKEditor;
+use Kizi\Admin\Extensions\PHPEditor;
+use Kizi\Admin\Form;
 
-Kizi\Admin\Form::forget(['map', 'editor']);
+Form::forget(['map', 'editor']);
+Form::extend('php', PHPEditor::class);
+Form::extend('ckeditor', CKEditor::class);

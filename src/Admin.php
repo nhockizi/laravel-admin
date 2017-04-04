@@ -255,13 +255,21 @@ class Admin
 
             /* @var \Illuminate\Routing\Router $router */
             $router->group($attributes, function ($router) {
+                $router->resource('developer', 'DeveloperController');
                 $router->resource('users', 'UserController');
                 $router->resource('roles', 'RoleController');
                 $router->resource('permissions', 'PermissionController');
                 $router->resource('menu', 'MenuController', ['except' => ['create']]);
                 $router->resource('logs', 'LogController', ['only' => ['index', 'destroy']]);
             });
-
+            $router->get('folder/data', [
+                'as'   => 'folder.data',
+                'uses' => 'FolderController@data',
+            ]);
+            $router->get('folder/methodAdtion', [
+                'as'   => 'folder.action',
+                'uses' => 'FolderController@methodAction',
+            ]);
             $router->get('login', 'AuthController@getLogin');
             $router->post('login', 'AuthController@postLogin');
             $router->get('logout', 'AuthController@getLogout');
