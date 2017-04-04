@@ -1,7 +1,7 @@
 <script src="{{ asset ("/packages/admin/jstree/dist/jstree.min.js") }}"></script>
 <style>
-#container { min-width:320px; margin:0px auto 0 auto; background:white; border-radius:0px; padding:0px; overflow:hidden; }
-#tree { float:left; min-width:319px; border-right:1px solid silver; overflow:auto; padding:0px 0; }
+#container { min-width:100%; margin:0px auto 0 auto; background:white; border-radius:0px; padding:0px; overflow:hidden; }
+#tree { float:left; min-width:100%; border-right:1px solid silver; overflow:auto; padding:0px 0; }
 #data { margin-left:320px; }
 #data textarea { margin:0; padding:0; height:100%; width:100%; border:0; background:white; display:block; line-height:18px; resize:none; }
 #data, #code { font: normal normal normal 12px/18px 'Consolas', monospace !important; }
@@ -41,11 +41,10 @@
 		<div class="content default" style="text-align:center;">Select a file from the tree.</div>
 	</div>
 </div>
-
 <script>
 $(function () {
 	$(window).resize(function () {
-		var h = Math.max($(window).height() - 0, 420);
+		var h = Math.max($(window).height() - 200, 220);
 		$('#container, #data, #tree, #data .content').height(h).filter('.default').css('lineHeight', h + 'px');
 	}).resize();
 
