@@ -30,7 +30,6 @@ class PHPEditor extends Field
         '/packages/admin/codemirror/lib/codemirror.css',
         '/packages/admin/codemirror/addon/hint/show-hint.css',
         '/packages/admin/codemirror/addon/display/fullscreen.css',
-        '/packages/admin/codemirror/theme/night.css',
     ];
 
     public function render()
@@ -39,18 +38,18 @@ class PHPEditor extends Field
 
 CodeMirror.fromTextArea(document.getElementById("{$this->id}"), {
     lineNumbers: true,
-    mode: ["text/x-php","javascript"],
+    mode: "text/x-php",
     extraKeys: {
         "Tab": function(cm){
             cm.replaceSelection("   " , "end");
         },
-        "Ctrl-Space": "autocomplete",
         "F11": function(cm) {
           cm.setOption("fullScreen", !cm.getOption("fullScreen"));
         },
         "Esc": function(cm) {
           if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
-        }
+        },
+        "Ctrl-Space": "autocomplete",
      },
       commandsOptions: {
                         edit: {
