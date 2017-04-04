@@ -20,7 +20,7 @@ class PHPEditor extends Field
     ];
 
     protected static $css = [
-        '/packages/codemirror/lib/codemirror.css',
+        '/packages/admin/codemirror/lib/codemirror.css',
     ];
 
     public function render()
