@@ -1,3 +1,4 @@
+<script src="{{ asset ("/packages/admin/jstree/dist/jstree.min.js") }}"></script>
 <style>
 #container { min-width:320px; margin:0px auto 0 auto; background:white; border-radius:0px; padding:0px; overflow:hidden; }
 #tree { float:left; min-width:319px; border-right:1px solid silver; overflow:auto; padding:0px 0; }
@@ -5,8 +6,8 @@
 #data textarea { margin:0; padding:0; height:100%; width:100%; border:0; background:white; display:block; line-height:18px; resize:none; }
 #data, #code { font: normal normal normal 12px/18px 'Consolas', monospace !important; }
 
-#tree .folder { background:url('{{asset('packages/jstree/file_sprite.png')}}') right bottom no-repeat; }
-#tree .file { background:url('{{asset('packages/jstree/file_sprite.png')}}') 0 0 no-repeat; }
+#tree .folder { background:url('{{asset('packages/admin/jstree/file_sprite.png')}}') right bottom no-repeat; }
+#tree .file { background:url('{{asset('packages/admin/jstree/file_sprite.png')}}') 0 0 no-repeat; }
 #tree .file-pdf { background-position: -32px 0 }
 #tree .file-as { background-position: -36px 0 }
 #tree .file-c { background-position: -72px -0px }
@@ -30,7 +31,7 @@
 #tree .file-css { background-position: -144px -0px }
 #tree .file-fla { background-position: -398px -0px }
 </style>
-<link rel="stylesheet" href="{{ asset("/packages/jstree/dist/themes/default/style.min.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/jstree/dist/themes/default/style.min.css") }}">
 <div id="container" role="main">
 	<div id="tree"></div>
 	<div id="data">
@@ -40,7 +41,7 @@
 		<div class="content default" style="text-align:center;">Select a file from the tree.</div>
 	</div>
 </div>
-<script src="{{ asset ("/packages/jstree/dist/jstree.min.js") }}"></script>
+
 <script>
 $(function () {
 	$(window).resize(function () {
