@@ -287,7 +287,8 @@ class JsTree
                 'id'       => $node,
                 'parent'   => ($this->base == dirname($node) ? '#' : dirname($node)),
                 'text'     => basename($node),
-                'icon'     => ($file ? $this->fileIconClass : $this->folderIconClass),
+                'icon'     => ($file ? 'file file-' . substr($node, strrpos($node, '.') + 1) : $this->folderIconClass),
+                'type'     => ($file ? 'file' : 'default'),
                 'state'    => [
                     'disabled' => ($file ? $this->filterDisabled($node, 'file') : $this->filterDisabled($node)),
                     'opened'   => ($file ? false : $this->filterOpened($node)),

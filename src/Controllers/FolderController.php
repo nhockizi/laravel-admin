@@ -84,9 +84,9 @@ class FolderController extends Controller
             File::directories(app()->basePath() . '/' . $id),
             File::files(app()->basePath() . '/' . $id)
         );
-        $nodes               = str_replace(app()->basePath() . '/', '', $nodes);
-        $tree                = new JsTree($nodes, 'app');
-        $tree->fileIconClass = 'fa fa-file';
+        $nodes = str_replace(app()->basePath() . '/', '', $nodes);
+        $tree  = new JsTree($nodes, 'app');
+
         $tree->setExcludedExtensions(['DS_Store', 'gitignore']);
         // $tree->setExcludedPaths(['Laravel-wallpapers/.git']);
         $tree->setDisabledExtensions(['md', 'png', '.git']);
