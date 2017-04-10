@@ -2,6 +2,7 @@
 
 namespace Kizi\Admin\Controllers;
 
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Kizi\Admin\Facades\Admin;
@@ -13,10 +14,7 @@ class DeveloperController extends Controller
 {
     public function index()
     {
-        return Admin::content(function (Content $content) {
-            $content->header('Developer');
-            $content->row(view('admin::developer.index'));
-        });
+        return view('admin::developer.index');
         return Admin::content(function (Content $content) {
             $content->header('Editors');
 
@@ -43,10 +41,19 @@ class DeveloperController extends Controller
         array_pop($file);
         $file = implode('\\', $file);
         $file .= DIRECTORY_SEPARATOR . $request->id;
-        $nameFile = explode('\\', $request->id);
-        $nameFile = implode('-', $nameFile);
-        $nameFile = explode('.', $nameFile);
-        $nameFile = implode('-', $nameFile);
-        return view('admin::developer.codemirror', compact('nameFile', 'file'));
+        if (File::isDirectory($file)) {
+            return array('type' => 'folder', 'content' => $request->id);
+        } else {
+            $nameFile = explode('\\', $request->id);
+            $nameFile = implode('-', $nameFile);
+            $nameFile = explode('.', $nameFile);
+            $nameFile = implode('-', $nameFile);
+
+            $html = view('admin::developer.codemirror', compact('nameFile', 'file'))->render();
+            $ext  = strpos($request->id, '.') !== false ? substr($request->id, strrpos($request->id, '.') + 1) : '';
+            $name = explode('\\', $nameFile);
+            $name = array_pop($name);
+            return array('type' => $ext, 'name' => $name, 'id' => $nameFile, 'content' => $html);
+        }
     }
 }

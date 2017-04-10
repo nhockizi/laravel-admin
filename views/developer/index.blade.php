@@ -1,10 +1,24 @@
+<link rel="stylesheet" href="{{ asset("/packages/admin/AdminLTE/bootstrap/css/bootstrap.min.css") }}">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="{{ asset("/packages/admin/font-awesome/css/font-awesome.min.css") }}">
+{!! Admin::css() !!}
+<link rel="stylesheet" href="{{ asset("/packages/admin/nestable/nestable.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/toastr/build/toastr.min.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/bootstrap3-editable/css/bootstrap-editable.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/google-fonts/fonts.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/AdminLTE/dist/css/AdminLTE.min.css") }}">
+<!-- REQUIRED JS SCRIPTS -->
+<script src="{{ asset ("/packages/admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js") }}"></script>
+<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<script src="{{ asset ("/packages/admin/AdminLTE/bootstrap/js/bootstrap.min.js") }}"></script>
+<script src="{{ asset ("/packages/admin/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js") }}"></script>
 <script src="{{ asset ("/packages/admin/jstree/dist/jstree.min.js") }}"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 <style>
 #container { min-width:100%; margin:0px auto 0 auto; background:white; border-radius:0px; padding:0px; overflow:hidden; }
-#tree { float:left; min-width:100%; border-right:1px solid silver; overflow:auto; padding:0px 0; }
+#tree { float:left; min-width:100%; border-right:1px solid silver; overflow:auto; padding:0px 0;height: 90% !important; }
 #data textarea { margin:0; padding:0; height:100%; width:100%; border:0; background:white; display:block; line-height:18px; resize:none; }
 #data, #code { font: normal normal normal 12px/18px 'Consolas', monospace !important; }
-
 #tree .folder { background:url('{{asset('packages/admin/jstree/file_sprite.png')}}') right bottom no-repeat; }
 #tree .file { background:url('{{asset('packages/admin/jstree/file_sprite.png')}}') 0 0 no-repeat; }
 #tree .file-pdf { background-position: -32px 0 }
@@ -29,23 +43,35 @@
 #tree .file-js { background-position: -434px -18px }
 #tree .file-css { background-position: -144px -0px }
 #tree .file-fla { background-position: -398px -0px }
+.CodeMirror{
+	height: 80% !important;
+}
+.ui-closable-tab{
+	position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
 </style>
 <link rel="stylesheet" href="{{ asset("/packages/admin/jstree/dist/themes/default/style.min.css") }}">
-<div class="row">
-	<div class="col-xs-3">
+
+<div class="col-xs-3">
+	<div class="row">
 		<div id="tree"></div>
 	</div>
-	<div class="col-xs-9">
-		<div id="form-detail"></div>
+</div>
+<div class="col-xs-9">
+	<div class="row">
+		<div id="form-detail" class="nav-tabs-custom">
+			<ul class="nav nav-tabs" style="height: 45px;">
+			</ul>
+			<div class="tab-content">
+			</div>
+		</div>
 	</div>
 </div>
 <script>
 $(function () {
-	$(window).resize(function () {
-		var h = Math.max($(window).height() - 200, 220);
-		$('#container, #data, #tree, #data .content').height(h).filter('.default').css('lineHeight', h + 'px');
-	}).resize();
-
 	$('#tree')
 		.jstree({
 			'core' : {
@@ -55,8 +81,8 @@ $(function () {
 						return { 'id' : node.id };
 					},
 					'error': function (data) {
-                        $('#jstree').html('<p>We had an error...</p>');
-                    }
+$('#jstree').html('<p>We had an error...</p>');
+}
 				},
 				'check_callback' : function(o, n, p, i, m) {
 					if(m && m.dnd && m.pos !== 'i') { return false; }
@@ -82,9 +108,9 @@ $(function () {
 					tmp.create.label = "New";
 					tmp.create.submenu = {
 						"create_folder" : {
-							"separator_after"	: true,
-							"label"				: "Folder",
-							"action"			: function (data) {
+									"separator_after"	: true,
+															"label"				: "Folder",
+													"action"			: function (data) {
 								var inst = $.jstree.reference(data.reference),
 									obj = inst.get_node(data.reference);
 								inst.create_node(obj, { type : "default" }, "last", function (new_node) {
@@ -93,8 +119,8 @@ $(function () {
 							}
 						},
 						"create_file" : {
-							"label"				: "File",
-							"action"			: function (data) {
+															"label"				: "File",
+													"action"			: function (data) {
 								var inst = $.jstree.reference(data.reference),
 									obj = inst.get_node(data.reference);
 								inst.create_node(obj, { type : "file" }, "last", function (new_node) {
@@ -166,7 +192,25 @@ $(function () {
 			if(data && data.selected && data.selected.length) {
 				$.get('{!! route('developer.load-content-file') !!}', { 'id' : data.node.id})
 					.done(function (d) {
-						$("#form-detail").html(d);
+						if(d && typeof d.type !== 'undefined') {
+							switch(d.type) {
+								case 'png':
+								case 'jpg':
+								case 'jpeg':
+								case 'bmp':
+								case 'gif':
+								case 'folder':
+									break;
+								default:
+									$("#form-detail").find('li').removeClass('active');
+									$("#form-detail .tab-content").find('.tab-pane').removeClass('active');
+									$("#form-detail ul").append('<li class="active"><a href="#tab_'+d.id+'" data-toggle="tab" aria-expanded="false">'+d.name+'</a><span class="ui-icon ui-icon-circle-close ui-closable-tab"></span></li>');
+									$("#form-detail .tab-content").append('<div class="tab-pane active" id="tab_'+d.id+'">'+d.content+'</div>');
+									break;
+							}
+
+						}
+						// $("#form-detail").html(d);
 					})
 					.fail(function () {
 						$("#form-detail").html('');
@@ -175,3 +219,29 @@ $(function () {
 		});
 });
 </script>
+<script src="{{ asset ("/packages/admin/codemirror/lib/codemirror.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/edit/matchbrackets.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/htmlmixed/htmlmixed.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/xml/xml.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/markdown/markdown.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/javascript/javascript.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/css/css.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/clike/clike.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/php/php.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/hint/show-hint.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/hint/css-hint.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/hint/html-hint.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/hint/javascript-hint.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/clike/clike.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/display/fullscreen.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/keymap/sublime.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/search/search.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/search/searchcursor.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/search/jump-to-line.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/dialog/dialog.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/scroll/simplescrollbars.js") }}"></script>
+<link rel="stylesheet" href="{{ asset("/packages/admin/codemirror/lib/codemirror.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/codemirror/addon/hint/show-hint.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/codemirror/addon/display/fullscreen.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/codemirror/addon/dialog/dialog.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/codemirror/addon/scroll/simplescrollbars.css") }}">
