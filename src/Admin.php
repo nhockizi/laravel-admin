@@ -255,7 +255,7 @@ class Admin
 
             /* @var \Illuminate\Routing\Router $router */
             $router->group($attributes, function ($router) {
-                $router->resource('developer', 'DeveloperController');
+                $router->resource('developer', 'DeveloperController', ['only' => ['index']]);
                 $router->resource('users', 'UserController');
                 $router->resource('roles', 'RoleController');
                 $router->resource('permissions', 'PermissionController');
@@ -266,9 +266,9 @@ class Admin
                 'as'   => 'folder.data',
                 'uses' => 'FolderController@data',
             ]);
-            $router->get('folder/methodAdtion', [
-                'as'   => 'folder.action',
-                'uses' => 'FolderController@methodAction',
+            $router->get('developer/load-content-file', [
+                'as'   => 'developer.load-content-file',
+                'uses' => 'DeveloperController@loadContentFile',
             ]);
             $router->get('login', 'AuthController@getLogin');
             $router->post('login', 'AuthController@postLogin');

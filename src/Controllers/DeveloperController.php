@@ -2,6 +2,7 @@
 
 namespace Kizi\Admin\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Kizi\Admin\Facades\Admin;
 use Kizi\Admin\Layout\Content;
@@ -12,6 +13,10 @@ class DeveloperController extends Controller
 {
     public function index()
     {
+        return Admin::content(function (Content $content) {
+            $content->header('Developer');
+            $content->row(view('admin::developer.index'));
+        });
         return Admin::content(function (Content $content) {
             $content->header('Editors');
 
@@ -30,5 +35,18 @@ class DeveloperController extends Controller
             $content->header('Developer');
             $content->row(view('admin::developer.index'));
         });
+    }
+    public function loadContentFile(Request $request)
+    {
+        $dirApp = app()->basePath();
+        $file   = explode('\\', $dirApp);
+        array_pop($file);
+        $file = implode('\\', $file);
+        $file .= DIRECTORY_SEPARATOR . $request->id;
+        $nameFile = explode('\\', $request->id);
+        $nameFile = implode('-', $nameFile);
+        $nameFile = explode('.', $nameFile);
+        $nameFile = implode('-', $nameFile);
+        return view('admin::developer.codemirror', compact('nameFile', 'file'));
     }
 }

@@ -1,49 +1,32 @@
-<?php
-
-namespace Kizi\Admin\Extensions;
-
-use Kizi\Admin\Form\Field;
-
-class PHPEditor extends Field
-{
-    protected $view = 'admin::form.editor';
-
-    protected static $js = [
-        '/packages/admin/codemirror/lib/codemirror.js',
-        '/packages/admin/codemirror/addon/edit/matchbrackets.js',
-        '/packages/admin/codemirror/mode/htmlmixed/htmlmixed.js',
-        '/packages/admin/codemirror/mode/xml/xml.js',
-        '/packages/admin/codemirror/mode/markdown/markdown.js',
-        '/packages/admin/codemirror/mode/javascript/javascript.js',
-        '/packages/admin/codemirror/mode/css/css.js',
-        '/packages/admin/codemirror/mode/clike/clike.js',
-        '/packages/admin/codemirror/mode/php/php.js',
-        '/packages/admin/codemirror/addon/hint/show-hint.js',
-        '/packages/admin/codemirror/addon/hint/css-hint.js',
-        '/packages/admin/codemirror/addon/hint/html-hint.js',
-        '/packages/admin/codemirror/addon/hint/javascript-hint.js',
-        '/packages/admin/codemirror/mode/clike/clike.js',
-        '/packages/admin/codemirror/addon/display/fullscreen.js',
-        '/packages/admin/codemirror/keymap/sublime.js',
-        '/packages/admin/codemirror/addon/search/search.js',
-        '/packages/admin/codemirror/addon/search/searchcursor.js',
-        '/packages/admin/codemirror/addon/search/jump-to-line.js',
-        '/packages/admin/codemirror/addon/dialog/dialog.js',
-        '/packages/admin/codemirror/addon/scroll/simplescrollbars.js',
-    ];
-
-    protected static $css = [
-        '/packages/admin/codemirror/lib/codemirror.css',
-        '/packages/admin/codemirror/addon/hint/show-hint.css',
-        '/packages/admin/codemirror/addon/display/fullscreen.css',
-        '/packages/admin/codemirror/addon/dialog/dialog.css',
-        '/packages/admin/codemirror/addon/scroll/simplescrollbars.css',
-    ];
-
-    public function render()
-    {
-        $this->script = <<<EOT
-// The bindings defined specifically in the Sublime Text mode
+<script src="{{ asset ("/packages/admin/codemirror/lib/codemirror.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/edit/matchbrackets.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/htmlmixed/htmlmixed.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/xml/xml.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/markdown/markdown.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/javascript/javascript.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/css/css.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/clike/clike.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/php/php.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/hint/show-hint.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/hint/css-hint.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/hint/html-hint.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/hint/javascript-hint.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/mode/clike/clike.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/display/fullscreen.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/keymap/sublime.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/search/search.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/search/searchcursor.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/search/jump-to-line.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/dialog/dialog.js") }}"></script>
+<script src="{{ asset ("/packages/admin/codemirror/addon/scroll/simplescrollbars.js") }}"></script>
+<link rel="stylesheet" href="{{ asset("/packages/admin/codemirror/lib/codemirror.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/codemirror/addon/hint/show-hint.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/codemirror/addon/display/fullscreen.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/codemirror/addon/dialog/dialog.css") }}">
+<link rel="stylesheet" href="{{ asset("/packages/admin/codemirror/addon/scroll/simplescrollbars.css") }}">
+<textarea id="{{$nameFile}}" class="form-control">{{file_get_contents($file)}}</textarea>
+<script data-exec-on-popstate>
+	// The bindings defined specifically in the Sublime Text mode
 var bindings = {
     "Ctrl-X Cmd-X":"cut",
     "Ctrl-S Cmd-S":"save",
@@ -86,7 +69,7 @@ function joinLines(cm) {
     cm.setSelections(ranges, 0);
   });
 }
-CodeMirror.fromTextArea(document.getElementById("{$this->id}"), {
+CodeMirror.fromTextArea(document.getElementById("{{$nameFile}}"), {
     lineNumbers: true,
     scrollbarStyle:"overlay",
     mode: "text/x-php",
@@ -122,8 +105,4 @@ CodeMirror.fromTextArea(document.getElementById("{$this->id}"), {
                         }
                       }
 });
-
-EOT;
-        return parent::render();
-    }
-}
+</script>

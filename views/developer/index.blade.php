@@ -2,7 +2,6 @@
 <style>
 #container { min-width:100%; margin:0px auto 0 auto; background:white; border-radius:0px; padding:0px; overflow:hidden; }
 #tree { float:left; min-width:100%; border-right:1px solid silver; overflow:auto; padding:0px 0; }
-#data { margin-left:320px; }
 #data textarea { margin:0; padding:0; height:100%; width:100%; border:0; background:white; display:block; line-height:18px; resize:none; }
 #data, #code { font: normal normal normal 12px/18px 'Consolas', monospace !important; }
 
@@ -32,13 +31,12 @@
 #tree .file-fla { background-position: -398px -0px }
 </style>
 <link rel="stylesheet" href="{{ asset("/packages/admin/jstree/dist/themes/default/style.min.css") }}">
-<div id="container" role="main">
-	<div id="tree"></div>
-	<div id="data">
-		<div class="content code" style="display:none;"><textarea id="code" readonly="readonly"></textarea></div>
-		<div class="content folder" style="display:none;"></div>
-		<div class="content image" style="display:none; position:relative;"><img src="" alt="" style="display:block; position:absolute; left:50%; top:50%; padding:0; max-height:90%; max-width:90%;" /></div>
-		<div class="content default" style="text-align:center;">Select a file from the tree.</div>
+<div class="row">
+	<div class="col-xs-3">
+		<div id="tree"></div>
+	</div>
+	<div class="col-xs-9">
+		<div id="form-detail"></div>
 	</div>
 </div>
 <script>
@@ -166,38 +164,13 @@ $(function () {
 		})
 		.on('changed.jstree', function (e, data) {
 			if(data && data.selected && data.selected.length) {
-				$.get('{!! route('folder.data') !!}?operation=get_content&id=' + data.selected.join(':'), function (d) {
-					if(d && typeof d.type !== 'undefined') {
-						$('#data .content').hide();
-						switch(d.type) {
-							case 'text':
-							case 'txt':
-							case 'md':
-							case 'htaccess':
-							case 'log':
-							case 'sql':
-							case 'php':
-							case 'js':
-							case 'json':
-							case 'css':
-							case 'html':
-								$('#data .code').show();
-								$('#code').val(d.content);
-								break;
-							case 'png':
-							case 'jpg':
-							case 'jpeg':
-							case 'bmp':
-							case 'gif':
-								$('#data .image img').one('load', function () { $(this).css({'marginTop':'-' + $(this).height()/2 + 'px','marginLeft':'-' + $(this).width()/2 + 'px'}); }).attr('src',d.content);
-								$('#data .image').show();
-								break;
-							default:
-								$('#data .default').html(d.content).show();
-								break;
-						}
-					}
-				});
+				$.get('{!! route('developer.load-content-file') !!}', { 'id' : data.node.id})
+					.done(function (d) {
+						$("#form-detail").html(d);
+					})
+					.fail(function () {
+						$("#form-detail").html('');
+					});
 			}
 		});
 });

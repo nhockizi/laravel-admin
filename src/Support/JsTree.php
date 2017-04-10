@@ -277,8 +277,12 @@ class JsTree
         $filters = $this->filterExcludes($elements);
 
         $nodes = collect($filters)->map(function ($node) {
-            // $file = (pathinfo($node, PATHINFO_EXTENSION) ? true : false);
-            if (File::isDirectory(app()->basePath() . '/' . $node)) {
+            $dir = app()->basePath();
+            $dir = explode('\\', $dir);
+            array_pop($dir);
+            array_push($dir, $node);
+            $dir = implode('/', $dir);
+            if (File::isDirectory($dir)) {
                 $file = false;
             } else {
                 $file = true;
