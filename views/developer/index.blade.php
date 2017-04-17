@@ -9,11 +9,11 @@
 <link rel="stylesheet" href="{{ asset("/packages/admin/AdminLTE/dist/css/AdminLTE.min.css") }}">
 <!-- REQUIRED JS SCRIPTS -->
 <script src="{{ asset ("/packages/admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js") }}"></script>
-<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<script src="{{ asset ("/packages/admin/js/jquery-ui.js") }}"></script>
 <script src="{{ asset ("/packages/admin/AdminLTE/bootstrap/js/bootstrap.min.js") }}"></script>
 <script src="{{ asset ("/packages/admin/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js") }}"></script>
 <script src="{{ asset ("/packages/admin/jstree/dist/jstree.min.js") }}"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<link rel="stylesheet" href="{{ asset("/packages/admin/css/jquery-ui.css") }}" />
 <style>
 #container { min-width:100%; margin:0px auto 0 auto; background:white; border-radius:0px; padding:0px; overflow:hidden; }
 #tree { float:left; min-width:100%; border-right:1px solid silver; overflow:auto; padding:0px 0;height: 90% !important; }
