@@ -43,9 +43,9 @@ class AdminTablesSeeder extends Seeder
                 'item'     => 'div.widget div.post-outer',
                 'images'     => 'div.img-thumbnail img',
                 'title'     => 'div.post-outer h2.post-title a',
-                'description'     => 'div.card-content h2.card-title a p',
-                'url_detail'     => 'div.card-content h2.card-title a',
-                'detail'     => 'div.main-post',
+                'description'     => 'div.post-body div.snippets',
+                'url_detail'     => 'div.post-outer h2.post-title a',
+                'detail'     => 'div.post-outer article.post',
                 'category'     => 'span.author-info a',
                 'number_run' => 3
             ]
