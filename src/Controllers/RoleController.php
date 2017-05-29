@@ -99,10 +99,11 @@ class RoleController extends Controller
 
             $form->text('slug', trans('admin::lang.slug'))->rules('required');
             $form->text('name', trans('admin::lang.name'))->rules('required');
-            $form->multipleSelect('permissions', trans('admin::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
-
-            $form->display('created_at', trans('admin::lang.created_at'));
-            $form->display('updated_at', trans('admin::lang.updated_at'));
+            $form->checkbox('permissions', trans('admin::lang.permissions'))->options(Permission::all()->pluck('name', 'id'));
+            $latitude  = '10.823099';
+            $longitude = '106.629664';
+            $label     = 'google map';
+            $form->map($latitude, $longitude, $label);
         });
     }
 }

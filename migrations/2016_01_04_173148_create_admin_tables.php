@@ -13,7 +13,51 @@ class CreateAdminTables extends Migration
     public function up()
     {
         $connection = config('admin.database.connection') ?: config('database.default');
-
+        Schema::connection($connection)->create(config('admin.database.category_news_table'), function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 50)->nullable();
+            $table->integer('parent_id')->nullable();
+            $table->boolean('active')->default(true);
+            $table->boolean('number_sort')->default(true);
+            $table->timestamps();
+        });
+        Schema::connection($connection)->create(config('admin.database.batch_schedule_table'), function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('command',50)->nullable();
+            $table->text('comment')->nullable();
+            $table->string('status', 50)->nullable();
+            $table->string('time_command', 255)->nullable();
+            $table->tinyInteger('effect')->default(1);
+            $table->timestamp('last_run')->nullable();
+            $table->timestamp('last_start_run')->nullable();
+        });
+        Schema::connection($connection)->create(config('admin.database.news_table'), function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title', 250)->nullable();
+            $table->string('images', 250)->nullable();
+            $table->string('description', 250)->nullable();
+            $table->text('detail')->nullable();
+            $table->integer('category_id')->nullable();
+            $table->boolean('active')->default(true);
+            $table->boolean('number_sort')->default(true);
+            $table->timestamps();
+        });
+        Schema::connection($connection)->create(config('admin.database.crawler_table'), function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('code',10)->unique();
+            $table->string('url', 50)->nullable();
+            $table->text('parame_url')->nullable();
+            $table->tinyInteger('number_run')->default(1);
+            $table->boolean('active')->default(true);
+            $table->string('item', 50)->nullable();
+            $table->string('title', 50)->nullable();
+            $table->string('images', 50)->nullable();
+            $table->string('description', 50)->nullable();
+            $table->string('url_detail', 50)->nullable();
+            $table->string('detail', 50)->nullable();
+            $table->string('category', 50)->nullable();
+            $table->timestamps();
+        });
         Schema::connection($connection)->create(config('admin.database.users_table'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('username', 190)->unique();
@@ -45,7 +89,6 @@ class CreateAdminTables extends Migration
             $table->string('title', 50);
             $table->string('icon', 50);
             $table->string('uri', 50);
-
             $table->timestamps();
         });
 
@@ -87,6 +130,7 @@ class CreateAdminTables extends Migration
             $table->index('user_id');
             $table->timestamps();
         });
+
     }
 
     /**
@@ -107,5 +151,7 @@ class CreateAdminTables extends Migration
         Schema::connection($connection)->dropIfExists(config('admin.database.role_permissions_table'));
         Schema::connection($connection)->dropIfExists(config('admin.database.role_menu_table'));
         Schema::connection($connection)->dropIfExists(config('admin.database.operation_log_table'));
+        Schema::connection($connection)->dropIfExists(config('admin.database.role_menu_table'));
+        Schema::connection($connection)->dropIfExists(config('admin.database.crawler_table'));
     }
 }

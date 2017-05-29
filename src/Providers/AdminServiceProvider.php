@@ -24,11 +24,11 @@ class AdminServiceProvider extends ServiceProvider
      * @var array
      */
     protected $routeMiddleware = [
-        'admin.auth'       => \Kizi\Admin\Middleware\Authenticate::class,
-        'admin.pjax'       => \Kizi\Admin\Middleware\PjaxMiddleware::class,
-        'admin.log'        => \Kizi\Admin\Middleware\OperationLog::class,
+        'admin.auth' => \Kizi\Admin\Middleware\Authenticate::class,
+        'admin.pjax' => \Kizi\Admin\Middleware\PjaxMiddleware::class,
+        'admin.log' => \Kizi\Admin\Middleware\OperationLog::class,
         'admin.permission' => \Kizi\Admin\Middleware\PermissionMiddleware::class,
-        'admin.bootstrap'  => \Kizi\Admin\Middleware\BootstrapMiddleware::class,
+        'admin.bootstrap' => \Kizi\Admin\Middleware\BootstrapMiddleware::class,
     ];
 
     /**
@@ -95,10 +95,10 @@ class AdminServiceProvider extends ServiceProvider
     protected function setupAuth()
     {
         config([
-            'auth.guards.admin.driver'    => 'session',
-            'auth.guards.admin.provider'  => 'admin',
+            'auth.guards.admin.driver' => 'session',
+            'auth.guards.admin.provider' => 'admin',
             'auth.providers.admin.driver' => 'eloquent',
-            'auth.providers.admin.model'  => 'Kizi\Admin\Auth\Database\Administrator',
+            'auth.providers.admin.model' => 'Kizi\Admin\Auth\Database\Administrator',
         ]);
     }
 
