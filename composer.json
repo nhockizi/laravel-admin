@@ -17,7 +17,7 @@
         "intervention/image": "2.3.*"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "6.2.*",
+        "guzzlehttp/guzzle": "6.2.3",
         "symfony/css-selector": "3.2.8",
         "symfony/dom-crawler": "3.2.8"
     },
