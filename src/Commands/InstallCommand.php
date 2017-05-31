@@ -3,10 +3,15 @@
 namespace Kizi\Admin\Commands;
 
 use Illuminate\Console\Command;
+use Kizi\Admin\Commands\Installers\Installer;
+use Kizi\Admin\Commands\Installers\Traits\BlockMessage;
+use Kizi\Admin\Commands\Installers\Traits\SectionMessage;
 use Kizi\Admin\Facades\Admin;
+use Symfony\Component\Console\Input\InputOption;
 
 class InstallCommand extends Command
 {
+    use BlockMessage, SectionMessage;
     /**
      * The console command name.
      *
@@ -29,17 +34,53 @@ class InstallCommand extends Command
     protected $directory = '';
 
     /**
+     * @var Installer
+     */
+    private $installer;
+
+    /**
+     * Create a new command instance.
+     *
+     * @param Installer $installer
+     * @internal param Filesystem $finder
+     * @internal param Application $app
+     * @internal param Composer $composer
+     */
+    public function __construct(Installer $installer)
+    {
+        parent::__construct();
+        $this->getLaravel()['env'] = 'local';
+        $this->installer           = $installer;
+    }
+
+    /**
      * Execute the console command.
      *
      * @return void
      */
     public function fire()
     {
-        $this->publishDatabase();
+        $this->blockMessage('Welcome!', 'Starting the installation process...', 'comment');
+        $success = $this->installer->stack([
+            \Kizi\Admin\Commands\Installers\Scripts\ProtectInstaller::class,
+            \Kizi\Admin\Commands\Installers\Scripts\ConfigureDatabase::class,
+            \Kizi\Admin\Commands\Installers\Scripts\SetAppKey::class,
+        ])->install($this);
+        if ($success) {
+            $this->info('Admin ready! You can now login');
+        }
+        return false;
+        // $this->publishDatabase();
 
-        $this->initAdminDirectory();
+        // $this->initAdminDirectory();
     }
 
+    protected function getOptions()
+    {
+        return [
+            ['force', 'f', InputOption::VALUE_NONE, 'Force the installation, even if already installed'],
+        ];
+    }
     /**
      * Create tables and seed it.
      *
